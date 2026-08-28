@@ -1,0 +1,32 @@
+import numpy as np
+#distancias
+#hacemos mediciones para 1 micrón / 50 franjas
+N= 50
+d1= (20-1) * 0.88
+#para 1 vuelta (25) / 50 franjas
+d2= (16.5) *0.88
+#para 2 vueltas / 50 franjas
+d3= (17.8) * 0.88
+#alejando la pantalla / 2 vueltas 50 franjas
+d4= 18 * 0.88
+#alejando la pantalla / 2 vueltas 50 franjas repetición
+d5= (18.1) * 0.88
+d6= 18 * 0.88
+d7=18.1 * 0.88
+d8= 18.1 * 0.88
+l = 2*d1/N
+l2 = 2*d2/N
+l3 = 2*d3/N
+l4 = 2*d4/N
+l5 = 2*d5/N
+l6 = 2*d6/N
+l7 = 2*d7/N
+l8 = 2*d8/N
+print(l)
+print(l2)
+print(l3)
+print(l4)
+print(l5)
+print(l6)
+print(l7)
+print(l8)
