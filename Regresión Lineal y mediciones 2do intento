@@ -1,0 +1,42 @@
+# Parámetros
+lambda_0 = 632.8e-9  # m 
+d = 0.0254  # m (largo celda de vacío 2.54 cm)
+P_atm = 76.0  # cm Hg vac
+sigma_P_atm = 0.1  # error de lectura del manómetro
+
+# Mediciones
+x = np.array([0, 3, 7, 12, 14, 18.5, 22, 25.5, 28, 32.5, 36])  # Presión (cm Hg)
+N = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])  # Franjas acumuladas
+
+# Cálculo del índice de refracción n y regresión lineal
+delta_n = (N * lambda_0) / (2 * d)
+y = 1.0 + delta_n
+
+m, b = np.polyfit(x, y, 1)  # Ajuste y = m*x + b
+
+# Error de la pendiente (sigma_m) por mínimos cuadrados
+residuos = y - (m * x + b)
+S_y = np.sqrt(np.sum(residuos**2) / (len(x) - 2))
+sigma_m = S_y / np.sqrt(np.sum((x - np.mean(x)) ** 2))
+
+#Error del índice de refracción
+n_atm = 1.0 + m * P_atm
+sigma_n_atm = np.sqrt((P_atm * sigma_m) ** 2 + (m * sigma_P_atm) ** 2)
+
+print(f"Pendiente (m) : {m:.7f} ± {sigma_m:.7f} (cm Hg)^-1")
+print(f"n_atm         : {n_atm:.6f} ± {sigma_n_atm:.6f}")
+
+# Gráfico
+plt.figure(figsize=(7, 4))
+plt.scatter(x, y, color="hotpink", label="Datos experimentales")
+plt.plot(x, m * x + b, color="blue", linestyle="--", label="Ajuste lineal")
+plt.xlabel("Presión (cm Hg)")
+plt.ylabel("Índice de refracción (n)")
+plt.grid(True, alpha=0.5)
+plt.legend()
+plt.tight_layout()
+
+RESULTADO:
+Pendiente (m) : 0.0000035 ± 0.0000001 (cm Hg)^-1
+n_atm         : 1.000262 ± 0.000004
+plt.show()
